@@ -4,6 +4,7 @@ type WorkingTree = {
   name: string
   reference: string
   lastChangedAt: string
+  versions: { number: number; publishedAt: string }[]
   root: {
     id: string
     kind: 'PRODUCT' | 'COMPONENT' | 'MATERIAL'
@@ -114,6 +115,10 @@ function setComposition(
     { lines },
   )
 }
+
+function publish() {
+  return post(`/products/${productId.value}/publish`, {})
+}
 </script>
 
 <template>
@@ -125,6 +130,17 @@ function setComposition(
       <h1>{{ tree.name }}</h1>
       <p>{{ tree.reference }}</p>
       <p>Last changed {{ formatWhen(tree.lastChangedAt) }}</p>
+      <p>
+        <button type="button" @click="publish">Publish</button>
+      </p>
+      <ul v-if="tree.versions.length">
+        <li v-for="version in tree.versions" :key="version.number">
+          <NuxtLink :to="`/products/${tree.id}/versions/${version.number}`">
+            Version {{ version.number }}
+          </NuxtLink>
+          published {{ formatWhen(version.publishedAt) }}
+        </li>
+      </ul>
       <p v-if="actionError" class="error">{{ actionError }}</p>
       <TreeItem
         :item="tree.root"
@@ -150,5 +166,9 @@ main {
 .error {
   color: #8a1f1f;
   font-weight: 600;
+}
+
+ul {
+  padding-left: 1.1rem;
 }
 </style>

@@ -31,10 +31,11 @@ function publicationLabel(item: ProductListItem): string {
   if (item.publication === 'never-published') {
     return 'Never published'
   }
+  const published = `Version ${item.version} · published ${formatWhen(item.publishedAt)}`
   if (item.workingTreeChanged) {
-    return `Version ${item.version} · working tree changed`
+    return `${published} · working tree changed`
   }
-  return `Version ${item.version}`
+  return published
 }
 </script>
 

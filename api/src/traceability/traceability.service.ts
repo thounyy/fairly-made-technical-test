@@ -9,15 +9,34 @@ import {
 } from '../domain/edit-tree';
 import { Catalogue, loadCatalogue } from '../domain/load-catalogue';
 import { loadProducts } from '../domain/load-products';
+import {
+  findPublishedVersion,
+  publish as publishProduct,
+} from '../domain/publish';
 import { DomainError, Product } from '../domain/product';
-import { nameSuppliers, NamedItem } from './present-tree';
+import {
+  FrozenItem,
+  nameSuppliers,
+  NamedItem,
+  presentFrozen,
+} from './present-tree';
 
 export type WorkingTree = {
   id: string;
   name: string;
   reference: string;
   lastChangedAt: string;
+  versions: { number: number; publishedAt: string }[];
   root: NamedItem;
+};
+
+export type PublishedTree = {
+  id: string;
+  name: string;
+  reference: string;
+  number: number;
+  publishedAt: string;
+  root: FrozenItem;
 };
 
 @Injectable()
@@ -111,6 +130,27 @@ export class TraceabilityService {
     );
   }
 
+  publish(productId: string): WorkingTree {
+    return this.present(
+      this.replace(productId, (product) =>
+        publishProduct(product, new Date().toISOString()),
+      ),
+    );
+  }
+
+  publishedVersion(productId: string, number: number): PublishedTree {
+    const product = this.product(productId);
+    const version = findPublishedVersion(product, number);
+    return {
+      id: product.id,
+      name: product.name,
+      reference: product.reference,
+      number: version.number,
+      publishedAt: version.publishedAt,
+      root: presentFrozen(version.tree, this.supplierNames),
+    };
+  }
+
   private product(productId: string): Product {
     const product = this.products.find((entry) => entry.id === productId);
     if (!product) {
@@ -138,6 +178,10 @@ export class TraceabilityService {
       name: product.name,
       reference: product.reference,
       lastChangedAt: product.lastChangedAt,
+      versions: product.versions.map((version) => ({
+        number: version.number,
+        publishedAt: version.publishedAt,
+      })),
       root: nameSuppliers(apply(product), this.supplierNames),
     };
   }

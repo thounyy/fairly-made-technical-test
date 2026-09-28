@@ -3,7 +3,7 @@ import type { ProcessOption, Supplier } from '../domain/load-catalogue';
 import { toProductListItem } from '../domain/product-list';
 import type { ProductListItem } from '../domain/product-list';
 import { DomainError } from '../domain/product';
-import type { WorkingTree } from './traceability.service';
+import type { PublishedTree, WorkingTree } from './traceability.service';
 import { TraceabilityService } from './traceability.service';
 
 @Controller()
@@ -73,6 +73,19 @@ export class ProductsController {
     );
   }
 
+  @Post('products/:id/publish')
+  publish(@Param('id') id: string): WorkingTree {
+    return this.traceability.publish(id);
+  }
+
+  @Get('products/:id/versions/:number')
+  publishedVersion(
+    @Param('id') id: string,
+    @Param('number') number: string,
+  ): PublishedTree {
+    return this.traceability.publishedVersion(id, readVersionNumber(number));
+  }
+
   @Get('suppliers')
   suppliers(): Supplier[] {
     return this.traceability.suppliers();
@@ -108,6 +121,16 @@ function readNullableString(body: unknown, key: string): string | null {
     return value;
   }
   throw new DomainError('INVALID_BODY', `${key} must be a string or null.`);
+}
+
+function readVersionNumber(value: string): number {
+  if (!/^[1-9]\d*$/.test(value)) {
+    throw new DomainError(
+      'INVALID_BODY',
+      'Version number must be a positive integer.',
+    );
+  }
+  return Number(value);
 }
 
 function readPercentages(body: unknown): { id: string; percentage: number }[] {
