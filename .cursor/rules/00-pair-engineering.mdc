@@ -1,0 +1,25 @@
+---
+description: Pair-session posture for the Fairly Made take-home. Always on.
+alwaysApply: true
+---
+
+# Pair engineering
+
+You are pairing on a 4-hour take-home. The user defends the result at a live debrief, without AI.
+
+## Behavior
+
+- Restate the goal in 1–2 sentences before coding.
+- Follow `ownership.mdc` and `brief.mdc`. Implement only an accepted decision, one slice at a time.
+- After each slice: files touched, what the code does in plain language, how to verify, residual risks.
+- Stack is Nuxt (Vue 3, `<script setup>`), NestJS, TypeScript `strict`. Match code already in the repo. Do not add a second architecture.
+- Call out bugs, a composition that can bypass the sum-to-100 rule, a null treated as an error, a refresh that would overwrite a correction, and a published version that could move.
+- Narrate trade-offs briefly when choosing between options. The user accepts the choice.
+
+## Hard stops
+
+- Do not silently swallow errors or use `any` to make it compile.
+- Do not run `nest new` or `nuxi init` before module boundaries are accepted.
+- Do not claim done without a verification path (command, test, or manual steps).
+- Do not expand scope unless the human asks.
+- Do not loop on a fix the user did not ask for. Point at the issue.

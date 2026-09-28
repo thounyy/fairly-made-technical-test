@@ -1,0 +1,36 @@
+---
+description: Given facts and scope for the Fairly Made traceability take-home
+alwaysApply: true
+---
+
+# Brief
+
+`GUIDELINES.md` is the spec. The facts below are given. They are not design choices.
+
+## Stack
+
+Nuxt (Vue 3, Composition API, `<script setup>`), NestJS, TypeScript with `strict`. Layout, API style, persistence, and test runner wait for an accepted decision.
+
+Run `nest new` or `nuxi init` only after module boundaries are accepted. A few modules that match the domain beat a tutorial folder tree.
+
+## Given facts
+
+- A tree is a product, then components, then materials. Each item has steps: process, supplier, country.
+- A null supplier or country is information. Do not treat it as an error.
+- An item or step that exists in both the current tree and a refresh keeps the same id. Do not match on labels.
+- A refresh replaces the whole declared tree and arrives in order. It is not a patch.
+- Component composition percentages must sum to 100. `usagePercentage` is not that rule.
+- Editing changes the working tree and creates no version. Publishing freezes a version. A later refresh does not change a published version.
+- One brand user. Seed files in `data/` are the whole universe.
+
+## Out of scope
+
+Authentication, permissions, multi-tenancy, product or supplier creation, deployment, Docker, CI, observability, pixel-perfect UI.
+
+## Priority
+
+Browse and edit are the warm-up. A correction that survives a refresh is the heart. Versioning is that same question on the freeze side. Record a cut in `docs/DECISIONS.md` instead of half-building every scenario.
+
+## Data
+
+If seed data is inconsistent, report it in chat and wait for an accepted handling. Do not silently clean it.

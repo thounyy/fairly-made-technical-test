@@ -1,0 +1,16 @@
+---
+description: Nest API boundary — thin adapters, domain rules stay out of transport.
+globs: "**/{api,apps/api,apps/backend,backend,server,src}/**/*.ts"
+alwaysApply: false
+---
+
+# API
+
+NestJS. REST or GraphQL is an accepted decision. Do not add routes before that decision exists.
+
+- Controllers and resolvers stay thin: parse input, call the domain, map the response.
+- Validate external input at the boundary. Match the validator already in the repo.
+- Domain rules stay out of the transport. That includes composition percentages summing to 100, and a published version that does not move.
+- A null supplier or country is valid. Do not reject it as a missing field.
+- No authentication. Assume one brand user.
+- Once an error shape exists, keep it. Do not invent a second one.

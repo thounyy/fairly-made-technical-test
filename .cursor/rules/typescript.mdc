@@ -1,0 +1,26 @@
+---
+description: TypeScript standards — strict types, explicit errors, no silent any.
+globs: "**/*.{ts,tsx,vue}"
+alwaysApply: false
+---
+
+# TypeScript
+
+`strict` is on. Front and back.
+
+- Prefer `unknown` + narrowing over `any`. If `any` is unavoidable, comment why.
+- Use discriminated unions for status and result types.
+- Public functions: explicit param and return types at module boundaries.
+- Avoid non-null assertions (`!`) unless the invariant is local and proven. A null supplier or country is a real value, not a missing one.
+- Vue components use `<script setup>` and the Composition API.
+- Prefer `async`/`await`. Surface errors with a typed domain error, not an empty catch.
+
+```typescript
+// bad
+catch (e) { return null }
+
+// good
+catch (e) {
+  throw new AppError('PRODUCT_NOT_FOUND', { cause: e })
+}
+```
