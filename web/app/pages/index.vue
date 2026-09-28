@@ -17,6 +17,7 @@ type ProductListItem = {
 const config = useRuntimeConfig()
 const { data, error, status } = await useFetch<ProductListItem[]>(
   `${config.public.apiBase}/products`,
+  { getCachedData: () => undefined },
 )
 
 function formatWhen(iso: string): string {
@@ -45,7 +46,9 @@ function publicationLabel(item: ProductListItem): string {
     <p v-else-if="!data?.length">No products.</p>
     <ul v-else>
       <li v-for="item in data" :key="item.id">
-        <p class="name">{{ item.name }}</p>
+        <p class="name">
+          <NuxtLink :to="`/products/${item.id}`">{{ item.name }}</NuxtLink>
+        </p>
         <p class="reference">{{ item.reference }}</p>
         <p>{{ publicationLabel(item) }}</p>
         <p>Last changed {{ formatWhen(item.lastChangedAt) }}</p>
