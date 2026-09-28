@@ -14,6 +14,7 @@ import {
   publish as publishProduct,
 } from '../domain/publish';
 import { DomainError, Product } from '../domain/product';
+import { refresh as refreshProduct } from '../domain/refresh';
 import {
   FrozenItem,
   nameSuppliers,
@@ -126,6 +127,14 @@ export class TraceabilityService {
     return this.present(
       this.replace(productId, (product) =>
         setComposition(product, componentId, lines),
+      ),
+    );
+  }
+
+  refresh(productId: string, document: unknown): WorkingTree {
+    return this.present(
+      this.replace(productId, (product) =>
+        refreshProduct(product, document, new Date().toISOString()),
       ),
     );
   }

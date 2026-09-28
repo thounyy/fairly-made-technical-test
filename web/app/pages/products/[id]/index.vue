@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import refreshDocument from '../../../../../data/refreshes/tshirt-mariniere.refresh-2026-09-20.json'
+
 type WorkingTree = {
   id: string
   name: string
@@ -119,6 +121,10 @@ function setComposition(
 function publish() {
   return post(`/products/${productId.value}/publish`, {})
 }
+
+function refreshTee() {
+  return post(`/products/${productId.value}/refresh`, refreshDocument)
+}
 </script>
 
 <template>
@@ -132,6 +138,13 @@ function publish() {
       <p>Last changed {{ formatWhen(tree.lastChangedAt) }}</p>
       <p>
         <button type="button" @click="publish">Publish</button>
+        <button
+          v-if="tree.reference === 'FM-TS-0142'"
+          type="button"
+          @click="refreshTee"
+        >
+          Apply refresh
+        </button>
       </p>
       <ul v-if="tree.versions.length">
         <li v-for="version in tree.versions" :key="version.number">

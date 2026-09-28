@@ -73,6 +73,11 @@ export class ProductsController {
     );
   }
 
+  @Post('products/:id/refresh')
+  refresh(@Param('id') id: string, @Body() body: unknown): WorkingTree {
+    return this.traceability.refresh(id, body);
+  }
+
   @Post('products/:id/publish')
   publish(@Param('id') id: string): WorkingTree {
     return this.traceability.publish(id);

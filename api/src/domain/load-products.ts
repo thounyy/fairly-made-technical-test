@@ -13,6 +13,15 @@ export function loadProducts(treesDirectory: string): Product[] {
   });
 }
 
+export function parseDeclaredTree(value: unknown): { id: string; root: Item } {
+  const tree = expectRecord(value, 'tree');
+  const product = expectRecord(tree.product, 'tree.product');
+  return {
+    id: readString(product.id, 'tree.product.id'),
+    root: parseItem(tree.rootItem, 'tree.rootItem'),
+  };
+}
+
 function parseTreeFile(contents: string, fileName: string): Product {
   const parsed: unknown = parseJson(contents, fileName);
   const tree = expectRecord(parsed, fileName);
