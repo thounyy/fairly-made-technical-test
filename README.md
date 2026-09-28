@@ -73,3 +73,7 @@ One refresh file ships with the brief. Applying that file twice shows the replac
 ## Out of scope
 
 Authentication, several users, and creating products or suppliers. `data/` is the whole catalogue. No deployment, and no partial or out-of-order refresh.
+
+## Using AI
+
+I used AI from end to end, with a harness that constrained how it could work. The harness is `AGENTS.md` and the rules in `.cursor/rules/`. It could implement only a decision marked accepted in `docs/decisions.md`, one slice at a time, and it could not accept a decision itself. Scope, architecture, and the cuts were chosen before the code that depends on them.
