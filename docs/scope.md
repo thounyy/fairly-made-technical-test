@@ -2,11 +2,11 @@
 
 Four hours, from `GUIDELINES.md`. This file is what this session builds, and what it leaves as a written explanation.
 
-It answers D5 and D7. It does not choose how the tree is stored. D1, D2, D3, D4, and D6 stay open until you accept them. Close those before scaffolding.
+It answers D5 and D7. How the tree is stored is `docs/architecture.md`. D1 through D7 are `accepted` in `docs/DECISIONS.md`.
 
 ## Done
 
-A sustainability manager can open the three seed products, see what is still unknown, correct the supplier or the country of a step, publish a version that stays put, and apply the tee refresh without losing that correction.
+A sustainability manager can open the three seed products, see what is still unknown, correct a supplier, a country, an added step, or a composition, publish a version that stays put, and apply the tee refresh without losing those corrections. How that is stored is `docs/architecture.md`.
 
 ## Build
 
@@ -28,17 +28,17 @@ A sustainability manager can open the three seed products, see what is still unk
 - The seed is shown as it is. The jacket component `Denim 12 oz` (`itm_jk0207_c1`) sums to 98. We do not rewrite `data/`. The sum-to-100 rule applies to an edit the manager submits.
 - Any of these edits shows on the working tree immediately and creates no version.
 
-### One correction survives the tee refresh
+### Corrections survive the tee refresh
 
-Only a supplier or a country on a step that already exists.
+A supplier, a country, an added step, and a composition the manager saved.
 
-- That value is still there after `data/refreshes/tshirt-mariniere.refresh-2026-09-20.json`.
-- A supplier or country the manager did not change is taken from the refresh.
-- Those two fields are marked as a declaration or as the manager's correction.
+- That value is still there after `data/refreshes/tshirt-mariniere.refresh-2026-09-20.json`, when the item or step it points at is still in the refresh.
+- A supplier, country, or composition the manager did not change is taken from the refresh.
+- Those fields, and an added step, are marked as a declaration or as the manager's correction.
 - Applying that same refresh again changes nothing.
 - The jacket and the scarf have no refresh.
 
-Demo, so a case we did not build stays out of it: on the tee, change the cutting step (`stp_a1`) country from PT to FR. That step is still in the refresh, still declared PT. After the refresh the country shown is FR, and it is marked as a correction. Leave packaging (`stp_a3`) and dyeing (`stp_b2`) alone. Finishing (`stp_b3`) and the jersey composition show the refresh, because they were not corrected.
+Demo, so a case we did not build a screen for stays out of it: on the tee, change the cutting step (`stp_a1`) country from PT to FR. That step is still in the refresh, still declared PT. After the refresh the country shown is FR, and it is marked as a correction. Leave packaging (`stp_a3`) and dyeing (`stp_b2`) alone. Finishing (`stp_b3`) shows the refresh, because it was not corrected. An untouched jersey composition shows 92/8 from the refresh. A composition the manager had already saved stays at the saved percentages.
 
 ### Publish
 
@@ -49,16 +49,14 @@ Demo, so a case we did not build stays out of it: on the tee, change the cutting
 
 ## Leave out
 
-Each of these is still part of the problem. The README says how the model covers it. We do not code it.
+Each of these is still part of the problem. The README says how the model covers it. We do not build a screen for it.
 
 | Left out | Why |
 |---|---|
 | What changed between two published versions | A second screen. The brief names this as a sound cut. Opening a past version read-only is enough to show that it held still. |
 | "The declaration disagrees", and a way to drop a correction | The correction still wins without that screen. The jersey dyeing step, Tintoria Nord in IT against Malhas do Ave in PT, is the example to write up. |
-| A corrected step that the refresh removes | Packaging disappears in the refresh. The demo does not correct it. The write-up says the step stays gone and the correction is kept. |
+| A screen of corrections whose step the refresh removed | Packaging disappears in the refresh. The demo does not correct it. `apply` already keeps the record and does not put the step back. There is no screen that lists those leftover records. |
 | A second, different refresh | One file ships with the brief. Applying that file twice shows the operation is stable. A later refresh is the same rule, described in writing. |
-| A step the manager added, kept after a refresh | Adding a step works on the working tree. Keeping a step the declaration does not contain is the removal case from the other direction. |
-| A composition the manager edited, kept after a refresh | The sum-to-100 check is in the editor. The jersey moving from 95/5 to 92/8 is an untouched fact, so the refresh is shown. A composition the manager had fixed is a correction we only explain. |
 
 If the tree editor is still unfinished at the two-hour mark, drop "add a step" first. Supplier, country, publish, and the one refresh stay.
 
@@ -81,6 +79,8 @@ The brief takes these off the table. They are not cuts.
 - A composition edit that sums to anything but 100 is rejected. The jacket's existing 98 is still shown.
 - Publishing, then editing, leaves the published version unchanged.
 - The cutting-country correction is still FR after the tee refresh, and it is marked as a correction.
-- Finishing, or the jersey composition, shows the refresh.
+- An added step on an item the refresh still contains is still there, and marked as a correction.
+- A composition the manager saved is still there after the refresh. An untouched jersey composition shows the refresh.
+- Finishing shows the refresh, because it was not corrected.
 - Applying the refresh again changes nothing.
 - The published version is unchanged by that refresh.
